@@ -1,20 +1,32 @@
 from flask import Flask
 from flask import render_template, request
 import time
+from interface import create_product, get_product
+
 
 app = Flask(__name__)
 
 @app.route('/manufacturer',methods=['GET','POST'])
 def manufacturer_page():
     if request.method == "POST":
-        timeStamp = time.time()
+        timeStamp = str(time.time())
         itemName = request.form["item-name"]
         mfgDate = request.form["manufacturer-date"]
         expiryDate = request.form["expiry-date"]
         batchNo = request.form["batch-number"]
-        numberUnits = request.form["number-units"]
+        numberUnits = int(request.form["number-units"])
 
-        print(itemName)
+        productId = create_product(
+            timeStamp=timeStamp,
+            itemName=itemName,
+            mfgDate=mfgDate,
+            expiryDate=expiryDate,
+            batchNo=batchNo,
+            numberUnits=numberUnits
+        )
+
+        productData = get_product(productId=productId)
+        print(productData)
 
         return render_template('manufacturer.html',submitted=True)
 
