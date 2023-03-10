@@ -6,6 +6,19 @@ from hexbytes import HexBytes
 
 abi_edi = '''[
 	{
+		"inputs": [],
+		"name": "chutiya",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "string",
@@ -118,46 +131,9 @@ abi_edi = '''[
 		"name": "getProductDetails",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "timestamp",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "itemName",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "mfgDate",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "expiryDate",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "batchNo",
-						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "numberOfItem",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "productId",
-						"type": "uint256"
-					}
-				],
-				"internalType": "struct Contract_supplychain.Product",
+				"internalType": "uint256",
 				"name": "",
-				"type": "tuple"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -192,7 +168,7 @@ web3 = Web3(Web3.HTTPProvider(ganach_url))
 # web3 = Web3(Web3.EthereumTesterProvider)
 web3.eth.defaultAccount = web3.eth.accounts[0]
 #address = web3.toChecksumAddress("0xd9145CCE52D386f254917e481eB44e9943F39138")
-contract = web3.eth.contract(address="0x1E64FeaC8A4683199c7Bd1Df7D3978530be96BF7", abi=abi_edi)
+contract = web3.eth.contract(address="0xFe3028E169A5A79C4EBdc17c8Bb32A85F6ACa6df", abi=abi_edi)
 # contract = web3.eth.contract(abi = abi, bytecode = bytecode )
 # print(web3.eth.get_block('latest'))
 
@@ -205,7 +181,7 @@ contract = web3.eth.contract(address="0x1E64FeaC8A4683199c7Bd1Df7D3978530be96BF7
 
 
 signer_account = web3.eth.accounts[0]
-signer_private = '0xccf7fa966c261901be3427bb947fe36e2daf51374a28ca9d8c8f4d7ab53b0770'
+signer_private = '0x1f03802300a542709b103fc04b631f20e5ae72792b4aa96a9990b4ee39d09d74'
 # nonce = web3.eth.getTransactionCount(signer_account)
 # tx = {
 #     'nonce': nonce+1,
@@ -240,14 +216,6 @@ def gettime():
 def create_product(
             timeStamp, itemName, mfgDate, expiryDate, batchNo, numberUnits
 ):
-      txn_id = contract.functions.createProduct(
-            itemName,
-            timeStamp,
-            mfgDate,
-            expiryDate,
-            batchNo,
-            numberUnits
-	  ).transact()
       
       productId = contract.functions.createProduct(
             itemName,
@@ -258,19 +226,12 @@ def create_product(
             numberUnits
 	  ).call()
       
-      #print(productId)
       return productId
       
 def get_product(productId):
       productData = contract.functions.getProductDetails(productId).call()
       return productData
 
-
-      
-
-
-	  
-      
       
       
       

@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template, request
 import time
-from interface import create_product, get_product
+from interface import create_product, get_product, call_chutiya
 
 
 app = Flask(__name__)
@@ -16,6 +16,7 @@ def manufacturer_page():
         batchNo = request.form["batch-number"]
         numberUnits = int(request.form["number-units"])
 
+        
         productId = create_product(
             timeStamp=timeStamp,
             itemName=itemName,
@@ -24,6 +25,7 @@ def manufacturer_page():
             batchNo=batchNo,
             numberUnits=numberUnits
         )
+        print(productId)
 
         productData = get_product(productId=productId)
         print(productData)
