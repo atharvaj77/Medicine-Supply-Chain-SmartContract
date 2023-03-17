@@ -2,20 +2,6 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-contract Counter {
-    uint private count = 0;
-    function incrementCounter() public {
-        count += 1;
-    }
-    function decrementCounter() public {
-        count -= 1;
-    }
-
-    function getCount() public view returns (uint) {
-        return count;
-    }
-}
-
 contract Contract_supplychain
 {
     struct Product
@@ -29,10 +15,12 @@ contract Contract_supplychain
         uint productId;
     }
     uint public runningProductId = 0;
-    mapping(uint=>uint) map;
-    Counter cnt = new Counter();
+    // mapping(uint=>Product) map ;
+    Product[] public products;
 
-    function createProduct (string memory item_name,string memory time_stamp,string memory mfg_date, string memory expiry_date, string memory batch_no,uint numOfItem ) public returns (uint)
+
+
+    function createProduct(string memory item_name,string memory time_stamp,string memory mfg_date, string memory expiry_date, string memory batch_no,uint numOfItem ) public returns(uint)
     {
         Product memory p1;
         p1.timestamp = time_stamp;
@@ -41,22 +29,15 @@ contract Contract_supplychain
         p1.expiryDate = expiry_date;
         p1.batchNo = batch_no;
         p1.numberOfItem = numOfItem;
-        p1.productId = cnt.getCount()+1;
-        map[p1.productId] = p1.productId;
-        //runningProductId+= 1;
-        cnt.incrementCounter();
+        p1.productId = products.length;
+        products.push(p1);
         return p1.productId;
     }
 
-    function chutiya() public returns (uint){
-        cnt.incrementCounter();
-        return cnt.getCount();
-    }
-
-
-    function getProductDetails(uint productId) public view returns(uint) 
+    function getProductDetails(uint productId) external view returns(Product memory) 
     {
-        return map[productId];
+        return products[productId];
+        // return map[productId];
     }
 
     // function setTimeStamp(string memory time) public
@@ -124,3 +105,7 @@ contract Contract_supplychain
     // bytes32 hash = createHash(itemName, timestamp, mfgDate, expiryDate, batchNo);
 
 }
+
+
+
+
