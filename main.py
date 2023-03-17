@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template, request
 import time
-from interface import create_product, get_product, call_chutiya
+from interface import create_product, get_product
 
 
 app = Flask(__name__)
