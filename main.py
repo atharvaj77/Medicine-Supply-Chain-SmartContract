@@ -1,12 +1,11 @@
 from flask import Flask
 from flask import render_template, request
 import time
-from interface import create_product, get_product
-
-
+from interface import create_product, get_product, last
 app = Flask(__name__)
 
-@app.route('/manufacturer',methods=['GET','POST'])
+
+@app.route('/manufacturer', methods=['GET', 'POST'])
 def manufacturer_page():
     if request.method == "POST":
         timeStamp = str(time.time())
@@ -16,8 +15,7 @@ def manufacturer_page():
         batchNo = request.form["batch-number"]
         numberUnits = int(request.form["number-units"])
 
-        
-        productId = create_product(
+        create_product(
             timeStamp=timeStamp,
             itemName=itemName,
             mfgDate=mfgDate,
@@ -25,15 +23,13 @@ def manufacturer_page():
             batchNo=batchNo,
             numberUnits=numberUnits
         )
-        print(productId)
+        print(last())
 
-        productData = get_product(productId=productId)
-        print(productData)
+        # print(get_product())
 
-        return render_template('manufacturer.html',submitted=True)
+        return render_template('manufacturer.html', submitted=True)
 
-    return render_template('manufacturer.html',submitted=False)
-
+    return render_template('manufacturer.html', submitted=False)
 
 
 if __name__ == '__main__':
