@@ -6,7 +6,7 @@ ganach_url = "http://127.0.0.1:7545"
 web3 = Web3(Web3.HTTPProvider(ganach_url))
 web3.eth.defaultAccount = web3.eth.accounts[0]
 contract = web3.eth.contract(
-    address="0x5B0c8195Bfc087BeD6BC8c7405A6938Cdd345beD", abi=ABI)
+    address="0x8f7Ed927c66d75031f6069F67F6CCCaa8E2b6365", abi=ABI)
 
 
 signer_account = web3.eth.accounts[0]
@@ -34,7 +34,7 @@ def create_product(timeStamp, itemName, mfgDate, expiryDate, batchNo, numberUnit
     ).buildTransaction({'from': signer_account, 'nonce': nonce})
 
     signed_tx = web3.eth.account.signTransaction(
-        tx, '0x6727e3c0a0187676c78ff449e9ce460ae1b3479b10e71e59a94414865c8033bc')
+        tx, '0x76ef7d36bd8644b3f1662c779a5bfb1cd5fee9b3b09bbd6ed258ba8c1a2e360f')
     hash_txn = web3.eth.send_raw_transaction(signed_tx.rawTransaction)
 
 def addState(product_id, time_stamp, loc):

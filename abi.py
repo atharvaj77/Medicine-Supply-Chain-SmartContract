@@ -8,11 +8,6 @@ ABI = '''[
 			},
 			{
 				"internalType": "string",
-				"name": "time_stamp",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
 				"name": "mfg_date",
 				"type": "string"
 			},
@@ -30,6 +25,21 @@ ABI = '''[
 				"internalType": "uint256",
 				"name": "numOfItem",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "history",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "parent",
+				"type": "int256"
+			},
+			{
+				"internalType": "address",
+				"name": "user_address",
+				"type": "address"
 			}
 		],
 		"name": "createProduct",
@@ -40,72 +50,15 @@ ABI = '''[
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "item_name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "time_stamp",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "mfg_date",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "expiry_date",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "batch_no",
-				"type": "string"
+				"internalType": "address",
+				"name": "person",
+				"type": "address"
 			}
 		],
-		"name": "createHash",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "_messageHash",
-				"type": "bytes32"
-			}
-		],
-		"name": "getEthSignedMessageHash",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getLastIndex",
+		"name": "findProduct",
 		"outputs": [
 			{
 				"components": [
-					{
-						"internalType": "string",
-						"name": "timestamp",
-						"type": "string"
-					},
 					{
 						"internalType": "string",
 						"name": "itemName",
@@ -127,19 +80,37 @@ ABI = '''[
 						"type": "string"
 					},
 					{
+						"internalType": "string",
+						"name": "current_history",
+						"type": "string"
+					},
+					{
 						"internalType": "uint256",
-						"name": "numberOfItem",
+						"name": "ID",
 						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
-						"name": "productId",
+						"name": "numberOfItem",
 						"type": "uint256"
 					}
 				],
-				"internalType": "struct Contract_supplychain.Product",
+				"internalType": "struct Contract_supplychain.Product[]",
 				"name": "",
-				"type": "tuple"
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getLastIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -159,11 +130,6 @@ ABI = '''[
 				"components": [
 					{
 						"internalType": "string",
-						"name": "timestamp",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
 						"name": "itemName",
 						"type": "string"
 					},
@@ -183,13 +149,18 @@ ABI = '''[
 						"type": "string"
 					},
 					{
+						"internalType": "string",
+						"name": "current_history",
+						"type": "string"
+					},
+					{
 						"internalType": "uint256",
-						"name": "numberOfItem",
+						"name": "ID",
 						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
-						"name": "productId",
+						"name": "numberOfItem",
 						"type": "uint256"
 					}
 				],
@@ -213,11 +184,6 @@ ABI = '''[
 		"outputs": [
 			{
 				"internalType": "string",
-				"name": "timestamp",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
 				"name": "itemName",
 				"type": "string"
 			},
@@ -237,13 +203,18 @@ ABI = '''[
 				"type": "string"
 			},
 			{
+				"internalType": "string",
+				"name": "current_history",
+				"type": "string"
+			},
+			{
 				"internalType": "uint256",
-				"name": "numberOfItem",
+				"name": "ID",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "productId",
+				"name": "numberOfItem",
 				"type": "uint256"
 			}
 		],
