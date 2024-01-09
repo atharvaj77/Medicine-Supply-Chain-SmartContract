@@ -14,27 +14,15 @@ contract Contract_supplychain
         uint ID;
         uint numberOfItem;
     }
+
  
     uint public runningProductId=0;
     mapping(address=>Product[]) findMap;
     Product[] public products;
-    function createProduct(string memory item_name,string memory mfg_date, string memory expiry_date, string memory batch_no,uint numOfItem, string memory history,int parent,address user_address ) public
+    function createProduct(string memory item_name,string memory mfg_date, string memory expiry_date, string memory batch_no,uint numOfItem, string memory history,int parent,address user_address,address to_Address) public returns(uint)
     {
-        if(parent==-1){
-        Product memory p1;
-        p1.itemName = item_name;
-        p1.mfgDate = mfg_date;
-        p1.expiryDate = expiry_date;
-        p1.batchNo = batch_no;
-        p1.current_history=history;
-        p1.numberOfItem = numOfItem;
-        p1.ID = runningProductId;
-        runningProductId++;
-        findMap[user_address].push(p1);
-        products.push(p1);
-    }
-        else{
-            require(products[uint(parent)].numberOfItem>=numOfItem);
+        if(parent==-1)
+        {
             Product memory p1;
             p1.itemName = item_name;
             p1.mfgDate = mfg_date;
@@ -44,10 +32,35 @@ contract Contract_supplychain
             p1.numberOfItem = numOfItem;
             p1.ID = runningProductId;
             runningProductId++;
+            findMap[to_Address].push(p1);
             products.push(p1);
-            findMap[user_address].push(p1);
-            products[uint(parent)].numberOfItem-=numOfItem;
+            return p1.ID;
+
         }
+        else{
+            for(int i=0;uint(i) < findMap[user_address].length;i++){
+                if(findMap[user_address][uint(i)].ID==uint(parent))
+                {   parent=i;
+                    break;
+                }
+            }
+            require(findMap[user_address][uint(parent)].numberOfItem>=numOfItem);
+            Product memory p1;  
+            p1.itemName = item_name;
+            p1.mfgDate = mfg_date;
+            p1.expiryDate = expiry_date;
+            p1.batchNo = batch_no;
+            p1.current_history=history;
+            p1.numberOfItem = numOfItem;
+            p1.ID = runningProductId;
+            runningProductId++;
+            products.push(p1);
+            findMap[user_address][uint(parent)].numberOfItem-=numOfItem;
+            findMap[to_Address].push(p1);
+            products[uint(parent)].numberOfItem -= numOfItem; 
+            return p1.ID;
+        }
+
         
     }
 
@@ -70,21 +83,11 @@ contract Contract_supplychain
         return products[productId];
     }
 
-    
-    // function createHash(string memory item_name,string memory time_stamp,string memory mfg_date, string memory expiry_date, string memory batch_no ) public pure returns(bytes32)// allowed only for manufacturer and distributer
-    // {
-    //     bytes32 hash1 = keccak256(abi.encode(item_name,time_stamp,mfg_date, expiry_date, batch_no ));
-    //     return getEthSignedMessageHash(hash1);
-    // }
-
-    // function getEthSignedMessageHash(
-    //     bytes32 _messageHash
-    // ) public pure returns (bytes32) {
-        
-    //     return
-    //         keccak256(
-    //             abi.encodePacked("\x19Ethereum Signed Message:\n32", _messageHash)
-    //         );
-    // }
+    function getLastProductId(address addr) public view returns(uint)
+    {
+        Product[] memory p =  findMap[addr];
+        uint id = findMap[addr][p.length-1].ID;
+        return id;
+    }
 
 }
